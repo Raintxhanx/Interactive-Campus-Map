@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peta Kampus - Tambah Data</title>
+    <!-- CSS Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* CSS untuk halaman */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        /* Form Layout */
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Peta Styling */
+        #map {
+            height: 50vh;
+            width: 100%;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        /* Responsif: untuk layar ponsel */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            form {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            input[type="url"] {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            button {
+                padding: 12px;
+            }
+        }
+
+        /* Responsif: untuk layar tablet */
+        @media (max-width: 1024px) {
+            form {
+                padding: 18px;
+            }
+
+            button {
+                padding: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Formulir Tambah Kampus Baru</h1>
+
+    <!-- Formulir untuk menambah kampus -->
+    <form action="/add_kampus" method="POST">
+        <fieldset>
+            <legend>Detail Kampus</legend>
+
+            <label for="nama_kampus">Nama Kampus:</label>
+            <input type="text" id="nama_kampus" name="nama_kampus" required>
+
+            <label for="latitude">Latitude:</label>
+            <input type="number" step="any" id="latitude" name="latitude" readonly>
+
+            <label for="longitude">Longitude:</label>
+            <input type="number" step="any" id="longitude" name="longitude" readonly>
+
+            <label for="url">URL:</label>
+            <input type="url" id="url" name="url" required>
+
+            <button type="submit">Tambah Kampus</button>
+        </fieldset>
+    </form>
+
+    <!-- Peta untuk memilih koordinat -->
+    <div id="map"></div>
+
+    <!-- Leaflet.js -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+        // Membuat peta Leaflet dengan lokasi default di Universitas Indonesia
+        var map = L.map('map').setView([-6.361, 106.832], 13);
+
+        // Menambahkan tile layer OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Menambahkan marker di lokasi default
+        var marker = L.marker([-6.361, 106.832]).addTo(map);
+
+        // Mengupdate input latitude dan longitude saat marker dipindahkan
+        marker.on('moveend', function (e) {
+            var latlng = e.target.getLatLng();
+            document.getElementById("latitude").value = latlng.lat;
+            document.getElementById("longitude").value = latlng.lng;
+        });
+
+        // Menambahkan event click pada peta untuk memilih lokasi
+        map.on('click', function (e) {
+            // Menambahkan marker baru di lokasi yang diklik
+            marker.setLatLng(e.latlng);
+
+            // Mengupdate input dengan koordinat yang diklik
+            document.getElementById("latitude").value = e.latlng.lat;
+            document.getElementById("longitude").value = e.latlng.lng;
+        });
+    </script>
+
+</body>
+</html>

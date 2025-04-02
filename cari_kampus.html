@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peta Kampus</title>
+    <!-- CSS Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #searchBox {
+            width: 300px;
+            padding: 8px;
+            margin: 20px auto;
+            display: block;
+            font-size: 16px;
+        }
+        #map {
+            height: 75vh;
+            width: 100%;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Peta Kampus</h1>
+    
+    <!-- Search bar untuk pencarian kampus -->
+    <input type="text" id="searchBox" placeholder="Cari kampus..." value="Universitas Indonesia" />
+
+    <!-- Container untuk Peta -->
+    <div id="map"></div>
+
+    <!-- Script Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+        // Inisialisasi peta dan atur tampilan awal
+        const map = L.map('map').setView([-6.200000, 106.816666], 10);  // Jakarta sebagai contoh
+
+        // Tambahkan layer peta dasar
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Fungsi untuk memperbarui peta dan menampilkan marker
+        function updateMap(kampusData) {
+            // Kosongkan semua marker di peta
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            // Menambahkan marker untuk setiap kampus yang ditemukan
+            kampusData.forEach(kampus => {
+                const marker = L.marker(kampus.coords).addTo(map);
+                marker.bindPopup(`<b>${kampus.name}</b><br><a href="${kampus.url}" target="_blank">Kunjungi Website</a>`);
+                marker.on('click', function() {
+                    map.flyTo(kampus.coords, 15, {animate: true, duration : 2}); // 15 adalah level zoom
+                });
+            });
+        }
+
+        // Fungsi untuk mengirimkan query pencarian ke backend
+        function searchKampus(searchTerm) {
+            fetch(`/api/cari_kampus?search=${searchTerm}`)
+                .then(response => response.json())
+                .then(kampusData => {
+                    updateMap(kampusData);  // Update peta dengan hasil pencarian
+                })
+                .catch(error => {
+                    console.error('Terjadi kesalahan:', error);
+                    alert('Universitas Tidak Ditemukan.');
+                });
+        }
+
+        // Panggil pencarian untuk Universitas Indonesia secara otomatis saat halaman pertama kali dimuat
+        searchKampus('Universitas Indonesia');
+
+        // Fungsi untuk menangani input dari search box
+        document.getElementById("searchBox").addEventListener("input", function(event) {
+            const searchTerm = event.target.value;
+            searchKampus(searchTerm);  // Update peta sesuai dengan pencarian
+        });
+    </script>
+
+</body>
+</html>
