@@ -79,7 +79,7 @@ npm install
     Pastikan tabel daftar_kampus_1 sudah terbentuk.
 
 ### 5️⃣ Atur Environment Variable (.env)
-Buat file baru bernama .env (atau rename .env.example), lalu isi konfigurasinya sesuai dengan database Anda
+Buat file baru bernama .env (atau rename .env.example), lalu isi konfigurasinya sesuai dengan database Anda (pastikan port aplikasi di 3000)
 
 ### 6️⃣ Jalankan Server
 node server.js
