@@ -1,0 +1,77 @@
+/* Container Utama */
+.page-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Bagian Pencarian */
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 50px; /* Bentuk kapsul */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
+}
+
+/* Tombol Kembali (Kecil) */
+.btn-back {
+  padding: 10px 15px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-back:hover {
+  background-color: #5a6268;
+}
+
+/* Peta */
+#map {
+  height: 70vh;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .search-wrapper {
+    flex-direction: column;
+  }
+  
+  .search-input {
+    width: 90%;
+  }
+
+  #map {
+    height: 55vh;
+  }
+}

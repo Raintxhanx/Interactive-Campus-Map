@@ -1,0 +1,135 @@
+/* Layout Utama */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.header-title {
+  font-size: 24px;
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Grid Layout: Kiri Form, Kanan Map */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* Form lebih kecil dari map */
+  gap: 30px;
+  align-items: start;
+}
+
+/* Card Style */
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box; /* Agar padding tidak merusak width */
+  transition: border-color 0.3s;
+}
+
+.form-input:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+.form-input[readonly] {
+  background-color: #f9f9f9;
+  color: #777;
+  cursor: not-allowed;
+}
+
+/* Tombol Submit */
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-submit:hover {
+  background-color: #45a049;
+}
+
+/* Tombol Kembali */
+.btn-back {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-back:hover {
+  background-color: #e0e0e0;
+}
+
+/* Map Style */
+#map-picker {
+  width: 100%;
+  height: 500px; /* Tinggi tetap agar stabil */
+  border-radius: 12px;
+  z-index: 1;
+}
+
+.map-instruction {
+  margin-bottom: 15px;
+  color: #666;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: 1fr; /* Stack ke bawah */
+  }
+
+  .header-section {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  #map-picker {
+    height: 350px;
+    order: -1; /* Peta di atas form di mobile (opsional) */
+  }
+}
